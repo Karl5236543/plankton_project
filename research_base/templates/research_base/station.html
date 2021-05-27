@@ -94,24 +94,41 @@
                     </tbody>
                 </table>
             </div>
-            <form action="" method="POST" id="main_form">
+            {% for sample in samples %}
+            <form action="{{ sample.get_edit_url }}" method="POST" class="main_form" id="edit_form_{{sample.id}}">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="horizont" class="form-label">горизонт</label>
-                    <input name="horizont" type="number" class="form-control" id="horizont_input"
+                    <input name="horizont" type="number" class="form-control"
+                        aria-describedby="emailHelp" value={{sample.horizont}}>
+                </div>
+                <div class="mb-3">
+                    <label for="time" class="form-label">время сбора</label>
+                    <input name="time" type="datetime-local" class="form-control" value={{sample.time}}>
+                </div>
+                <input type="hidden" name="station_id" value="{{current_station.id}}">
+                <button type="submit" class="btn btn-primary" id="edit_btn">изменить</button>
+                <button type="button" class="btn btn-warning">отменить</button>
+            </form>
+            {% endfor %}
+            <form action="{% url 'sample_create' %}" method="POST" class="main_form" id="create_form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="horizont" class="form-label">горизонт</label>
+                    <input name="horizont" type="number" class="form-control"
                         aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3">
                     <label for="time" class="form-label">время сбора</label>
-                    <input name="time" type="datetime-local" class="form-control" id="time_input" value="2017-06-01T08:30">
+                    <input name="time" type="datetime-local" class="form-control">
                 </div>
                 <input type="hidden" name="station_id" value="{{current_station.id}}">
-                <button type="submit" class="btn btn-primary" id="add_btn">изменить</button>
+                <button type="submit" class="btn btn-primary" id="add_btn">добавить</button>
                 <button type="button" class="btn btn-warning">отменить</button>
             </form>
             <div id="delete_menu">
                 <h4>Вы уверены, что хотите удалить этот район?</h4>
-                <a type="button" class="btn btn-danger" id="delete_button">Удалить</a>
+                <a name="sample" type="button" class="btn btn-danger" id="delete_button">Удалить</a>
                 <button type="button" class="btn btn-primary" id="cancel_button">отмена</button>
             </div>
             <div id="menu">
@@ -120,5 +137,5 @@
         </div>
     </div>
 </div>
-<script src='{% static "research_base/js/station.js" %}'></script>
+<script src='{% static "research_base/js/main.js" %}'></script>
 {% endblock %}

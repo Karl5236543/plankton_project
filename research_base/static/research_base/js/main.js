@@ -5,7 +5,8 @@ var map = new mapboxgl.Map({
     center: [-124.43115234375, 40.44694705960048],
     zoom: 5
 });
-/* map.on('load', function () {
+/* 
+map.on('load', function () {
     map.addSource('earthquakes', {
         type: 'geojson',
         // Use a URL for the value for the `data` property.
@@ -41,7 +42,7 @@ back = document.getElementById("back")
 
 for (var i = 0; i < edit_links.length; i++) {
     edit_links[i].onclick = function () {
-        id = self.value
+        id = this.value
         edit_form = document.getElementById("edit_form_" + id)
         edit_form.style.display = 'block'
         table_container.style.display = 'none'
@@ -63,19 +64,14 @@ for (var i = 0; i < delete_links.length; i++) {
         id = this.value
         delete_menu.style.display = 'block'
         back.style.display = 'block'
-        delete_button.href = 'http://localhost:8000/research_delete/' + id
+        obj_name = delete_button.name
+        delete_button.href = 'http://localhost:8000/' + obj_name + '_delete/' + id
     }
-}
 
-
-document.getElementById("cancel_button").onclick = function () {
-    back.style.display = 'none'
-    delete_menu.style.display = 'none'
-}
-
-document.getElementById("cancel_button").onclick = function () {
-    back.style.display = 'none'
-    delete_menu.style.display = 'none'
+    document.getElementById("cancel_button").onclick = function () {
+        back.style.display = 'none'
+        delete_menu.style.display = 'none'
+    }
 }
 
 
@@ -126,5 +122,3 @@ document.getElementById("delete").onclick = function () {
         }
     }
 };
-
-

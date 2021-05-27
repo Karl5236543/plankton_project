@@ -95,28 +95,50 @@
                     </tbody>
                 </table>
             </div>
-            <form action="" method="POST" id="main_form">
+            {% for station in stations %}
+            <form action="{{ station.get_edit_url }}" method="POST" class="main_form" id="edit_form_{{station.id}}">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="name" class="form-label">навание станции</label>
-                    <input name="name" type="text" class="form-control" id="name_input"
+                    <input name="name" type="text" class="form-control"
+                        aria-describedby="emailHelp" value="{{station.name}}">
+                </div>
+                <div class="mb-3">
+                    <label for="depth" class="form-label">глубина</label>
+                    <input name="depth" type="number" class="form-control" value="{{station.depth}}">
+                </div>
+                <div class="mb-3">
+                    <label for="date" class="form-label" value="{{station.time}}">время прибытия</label>
+                    <input type="datetime-local" id="date_input" name="date">
+                </div>
+                <input type="hidden" name="research_id" value="{{current_research.id}}">
+                <button type="submit" class="btn btn-primary" id="edit_btn">изменить</button>
+                <button type="button" class="btn btn-warning">отменить</button>
+            </form>
+            {% endfor %}
+            <form action="{% url 'station_create' %}" method="POST" class="main_form" id="create_form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">навание станции</label>
+                    <input name="name" type="text" class="form-control"
                         aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3">
                     <label for="depth" class="form-label">глубина</label>
-                    <input name="depth" type="number" class="form-control" id="depth_input">
+                    <input name="depth" type="number" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="date" class="form-label">время прибытия</label>
-                    <input type="time" id="date_input" name="date">
+                    <input type="datetime-local" id="date_input" name="date">
                 </div>
                 <input type="hidden" name="research_id" value="{{current_research.id}}">
-                <button type="submit" class="btn btn-primary" id="add_btn">изменить</button>
+                <button type="submit" class="btn btn-primary" id="add_btn">добавить</button>
                 <button type="button" class="btn btn-warning">отменить</button>
             </form>
+
             <div id="delete_menu">
                 <h4>Вы уверены, что хотите удалить этот район?</h4>
-                <a type="button" class="btn btn-danger" id="delete_button">Удалить</a>
+                <a name="station" type="button" class="btn btn-danger" id="delete_button">Удалить</a>
                 <button type="button" class="btn btn-primary" id="cancel_button">отмена</button>
             </div>
             <div id="menu">
@@ -125,5 +147,5 @@
         </div>
     </div>
 </div>
-<script src='{% static "research_base/js/research.js" %}'></script>
+<script src='{% static "research_base/js/main.js" %}'></script>
 {% endblock %}

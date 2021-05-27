@@ -5,7 +5,8 @@ var map = new mapboxgl.Map({
     center: [-124.43115234375, 40.44694705960048],
     zoom: 5
 });
-/* map.on('load', function () {
+/* 
+map.on('load', function () {
     map.addSource('earthquakes', {
         type: 'geojson',
         // Use a URL for the value for the `data` property.
@@ -38,10 +39,12 @@ delete_menu = document.getElementById("delete_menu")
 delete_button = document.getElementById("delete_button")
 back = document.getElementById("back")
 
+params_container = document.getElementById("params_container")
+
 
 for (var i = 0; i < edit_links.length; i++) {
     edit_links[i].onclick = function () {
-        id = self.value
+        id = this.value
         edit_form = document.getElementById("edit_form_" + id)
         edit_form.style.display = 'block'
         table_container.style.display = 'none'
@@ -53,9 +56,41 @@ for (var i = 0; i < edit_links.length; i++) {
 document.getElementById("create").onclick = function () {
     create_form.style.display = 'block'
     table_container.style.display = 'none'
-    console.log(table_container.style.display);
-
 };
+
+function ajax_get(url, callback) {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            try {
+                var data = JSON.parse(xmlhttp.responseText);
+            } catch (err) {
+                console.log(err.message + " in " + xmlhttp.responseText);
+                return;
+            }
+            callback(data);
+        }
+    };
+
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
+
+document.getElementById("form_input").onchange = function () {
+    id = this.value
+    url = 'http://localhost:8000/get_form_params/' + id
+    ajax_get(url, function (params) {
+        while (params_container.firstChild) {
+            params_container.removeChild(params_container.lastChild);
+        }
+        for (var i = 0; i < params['params'].length; i++) {
+            p = params['params'][i]
+            var div = document.createElement('div');
+            div.innerHTML =  '<div class="mb-3 row"><label for="'+ p +'" class="col-sm-2 col-form-label">'+ p +'</label><div class="col-sm-10"><input type="number" class="form-control" name='+ p +'></div></div>'
+            params_container.append(div)
+        }
+    })
+}
 
 
 for (var i = 0; i < delete_links.length; i++) {
@@ -63,13 +98,14 @@ for (var i = 0; i < delete_links.length; i++) {
         id = this.value
         delete_menu.style.display = 'block'
         back.style.display = 'block'
-        delete_button.href = 'http://localhost:8000/cell_delete/' + id
+        obj_name = delete_button.name
+        delete_button.href = 'http://localhost:8000/' + obj_name + '_delete/' + id
     }
-}
 
-document.getElementById("cancel_button").onclick = function () {
-    back.style.display = 'none'
-    delete_menu.style.display = 'none'
+    document.getElementById("cancel_button").onclick = function () {
+        back.style.display = 'none'
+        delete_menu.style.display = 'none'
+    }
 }
 
 

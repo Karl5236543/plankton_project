@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.conf import settings
@@ -34,6 +35,11 @@ def index(request):
     return render(request, 'research_base/index.html')
 
 
+def get_form_params_view(request, id):
+    params = Form.objects.get(id=id).parameters_V.split(',')
+    return JsonResponse({'params': list(params)})
+
+
 #----------------------------------------------------------------------------------#
 # Cell
 #----------------------------------------------------------------------------------#
@@ -52,7 +58,21 @@ def sample_view(request, id):
     })
 
 def cell_create_view(request):
-    return redirect('/', permanent=False)
+    form_id = request.POST.get('cell_form')
+    type_id = request.POST.get('type')
+    cell_count = request.POST.get('cell_count')
+    cell_form = Form.objects.get(id=form_id)
+    cell_type = Type.objects.get(id=type_id)
+
+    sample_id = request.POST.get('sample_id')
+    sample=Sample.objects.get(id=sample_id)
+
+    new_cell = Cell(sample=sample, type=cell_type, form=cell_form, count=cell_count)
+    new_cell.save()
+    for param in cell_form.get_parameters_V():
+        Cell_params.objects.create(cell=new_cell, name=param, value=request.POST.get(param))
+
+    return redirect(sample.get_absolute_url(), permanent=False)
 
 
 def cell_edit_view(request, id):

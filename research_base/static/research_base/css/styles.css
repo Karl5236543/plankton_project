@@ -68,3 +68,7 @@
     height: 100%;
     background: rgba(121, 121, 121, 0.644);
 }
+
+#params_container {
+    width: fit-content;
+}

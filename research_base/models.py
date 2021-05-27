@@ -16,8 +16,12 @@ class Research(models.Model):
     def get_absolute_url(self):
         return reverse('research', kwargs={'id': self.id})
 
+    def get_edit_url(self):
+        return reverse('research_edit', kwargs={'id': self.id})
+
     def get_station_count(self):
         return self.stations.count()
+
 
     class Meta:
         ordering = ["-create_time"]
@@ -37,6 +41,9 @@ class Station(models.Model):
 
     def get_absolute_url(self):
         return reverse('station', kwargs={'id': self.id})
+
+    def get_edit_url(self):
+        return reverse('station_edit', kwargs={'id': self.id})
 
     def get_sample_count(self):
         return self.samples.count()
@@ -58,6 +65,9 @@ class Sample(models.Model):
     def get_absolute_url(self):
         return reverse('sample', kwargs={'id': self.id})
 
+    def get_edit_url(self):
+        return reverse('sample_edit', kwargs={'id': self.id})
+
     def get_cell_count(self):
         return sum([cell.count for cell in self.cells.all()])
 
@@ -75,6 +85,9 @@ class Cell(models.Model):
     def get_absolute_url(self):
         return reverse('cell', kwargs={'id': self.id})
 
+    def get_edit_url(self):
+        return reverse('cell_edit', kwargs={'id': self.id})
+
     def __str__(self):
         return f"{self.type.name} - {self.form.name}"
 
@@ -86,6 +99,10 @@ class Form(models.Model):
     formula_P = models.CharField(max_length=50)
     parameters_V = models.CharField(max_length=50)
     parameters_P = models.CharField(max_length=50)
+
+    def get_parameters_V(self):
+        return self.parameters_V.split(',')
+
 
     def __str__(self):
         return f"{self.name}"

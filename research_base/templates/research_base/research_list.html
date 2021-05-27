@@ -92,23 +92,39 @@
                     </tbody>
                 </table>
             </div>
-            <form action="" method="POST" id="main_form">
+            {% for research in researches %}
+            <form action="{{ research.get_edit_url }}" method="POST" class="main_form" id="edit_form_{{research.id}}">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="research_name" class="form-label">навание исследования</label>
-                    <input name="research_name" type="text" class="form-control" id="name_input"
+                    <input name="research_name" type="text" class="form-control" value="{{research.name}}"
                         aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3">
                     <label for="research_area_name" class="form-label">название раёна исследований</label>
-                    <input name="research_area_name" type="text" class="form-control" id="area_name_input">
+                    <input name="research_area_name" type="text" class="form-control" value="{{research.area_name}}">
                 </div>
-                <button type="submit" class="btn btn-primary" id="add_btn">изменить</button>
+                <button type="submit" class="btn btn-primary" id="edit_btn">изменить</button>
+                <button type="button" class="btn btn-warning">отменить</button>
+            </form>
+            {% endfor %}
+            <form action="{% url 'research_create' %}" method="POST" class="main_form" id="create_form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="research_name" class="form-label">навание исследования</label>
+                    <input name="research_name" type="text" class="form-control"
+                        aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="research_area_name" class="form-label">название раёна исследований</label>
+                    <input name="research_area_name" type="text" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary" id="add_btn">добавить</button>
                 <button type="button" class="btn btn-warning">отменить</button>
             </form>
             <div id="delete_menu">
                 <h4>Вы уверены, что хотите удалить этот район?</h4>
-                <a type="button" class="btn btn-danger" id="delete_button">Удалить</a>
+                <a name="research" type="button" class="btn btn-danger" id="delete_button">Удалить</a>
                 <button type="button" class="btn btn-primary" id="cancel_button">отмена</button>
             </div>
             <div id="menu">
@@ -118,5 +134,5 @@
     </div>
 
 </div>
-<script src='{% static "research_base/js/research_list.js" %}'></script>
+<script src='{% static "research_base/js/main.js" %}'></script>
 {% endblock %}
