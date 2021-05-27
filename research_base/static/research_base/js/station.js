@@ -5,7 +5,7 @@ var map = new mapboxgl.Map({
     center: [-124.43115234375, 40.44694705960048],
     zoom: 5
 });
-map.on('load', function () {
+/* map.on('load', function () {
     map.addSource('earthquakes', {
         type: 'geojson',
         // Use a URL for the value for the `data` property.
@@ -23,18 +23,15 @@ map.on('load', function () {
             'circle-stroke-color': 'white'
         }
     });
-});
+}); */
 
 table_container = document.getElementById("table_container")
-
-horizont_input = document.getElementById("horizont_input")
-time_input = document.getElementById("time_input")
+create_form = document.getElementById("create_form")
 
 edit_links = document.getElementsByClassName("edit_link")
 delete_links = document.getElementsByClassName("delete_link")
 default_links = document.getElementsByClassName("default_link")
 
-main_form = document.getElementById("main_form")
 add_btn = document.getElementById("add_btn")
 
 delete_menu = document.getElementById("delete_menu")
@@ -44,25 +41,17 @@ back = document.getElementById("back")
 
 for (var i = 0; i < edit_links.length; i++) {
     edit_links[i].onclick = function () {
-        id = this.value
-        horizont = document.getElementById("td_horizont_" + id).textContent.trim();
-        time = document.getElementById("td_time_" + id).textContent.trim();
-        main_form.action = 'http://localhost:8000/sample_edit/' + id
-        main_form.style.display = 'block'
+        id = self.value
+        edit_form = document.getElementById("edit_form_" + id)
+        edit_form.style.display = 'block'
         table_container.style.display = 'none'
         add_btn.textContent = 'Изменить'
-        console.log(time);
-        horizont_input.value = horizont
-        // пока так
-        time_input.value = 'May/7/2021 1:05'
     }
 }
 
 
 document.getElementById("create").onclick = function () {
-    main_form.action = 'http://localhost:8000/sample_create/'
-    main_form.style.display = 'block'
-    add_btn.textContent = 'Создать'
+    create_form.style.display = 'block'
     table_container.style.display = 'none'
     console.log(table_container.style.display);
 
@@ -72,13 +61,16 @@ document.getElementById("create").onclick = function () {
 for (var i = 0; i < delete_links.length; i++) {
     delete_links[i].onclick = function () {
         id = this.value
-        horizont = document.getElementById("td_horizont_" + id).textContent.trim();
-        time = document.getElementById("td_time_" + id).textContent.trim();
-
         delete_menu.style.display = 'block'
         back.style.display = 'block'
-        delete_button.href = 'http://localhost:8000/sample_delete/' + id
+        delete_button.href = 'http://localhost:8000/station_delete/' + id
     }
+}
+
+
+document.getElementById("cancel_button").onclick = function () {
+    back.style.display = 'none'
+    delete_menu.style.display = 'none'
 }
 
 document.getElementById("cancel_button").onclick = function () {

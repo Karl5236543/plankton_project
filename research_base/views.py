@@ -41,11 +41,26 @@ def sample_view(request, id):
     thead = ["время создания", "тип", "форма", "количество", "V", "P"]
     cells = Cell.objects.filter(sample_id=id)
     current_sample = Sample.objects.get(id=id)
+    types = Type.objects.all()
+    forms = Form.objects.all()
     return render(request, 'research_base/sample.html', context={
         'thead': thead,
         'cells': cells,
+        'types': types,
+        'forms': forms,
         'current_sample': current_sample,
     })
+
+def cell_create_view(request):
+    return redirect('/', permanent=False)
+
+
+def cell_edit_view(request, id):
+    return redirect('/', permanent=False)
+
+
+def cell_delete_view(request, id):
+    return redirect('/', permanent=False)
 
 
 #----------------------------------------------------------------------------------#

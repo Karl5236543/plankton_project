@@ -19,4 +19,8 @@ urlpatterns = [
     path('sample_create/', sample_create_view, name='sample_create'),
     path('sample_delete/<uuid:id>/', sample_delete_view, name='sample_delete'),
     path('sample_edit/<uuid:id>', sample_edit_view, name='sample_edit'),
+
+    path('cell_create', cell_create_view, name='cell_create'),
+    path('cell_edit/<uuid:id>', cell_edit_view, name='cell_edit'),
+    path('cell_delete/<uuid:id>', cell_delete_view, name='cell_delete'),
 ]

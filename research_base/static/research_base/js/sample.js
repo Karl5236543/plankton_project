@@ -63,14 +63,8 @@ for (var i = 0; i < delete_links.length; i++) {
         id = this.value
         delete_menu.style.display = 'block'
         back.style.display = 'block'
-        delete_button.href = 'http://localhost:8000/research_delete/' + id
+        delete_button.href = 'http://localhost:8000/cell_delete/' + id
     }
-}
-
-
-document.getElementById("cancel_button").onclick = function () {
-    back.style.display = 'none'
-    delete_menu.style.display = 'none'
 }
 
 document.getElementById("cancel_button").onclick = function () {
@@ -126,5 +120,3 @@ document.getElementById("delete").onclick = function () {
         }
     }
 };
-
-

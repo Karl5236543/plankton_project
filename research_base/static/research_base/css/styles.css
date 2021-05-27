@@ -14,7 +14,7 @@
     padding: 5px;
 }
 
-#table_container, #main_form {
+#table_container, .main_form {
     height: 1000px;
     overflow-y: scroll;
 }
@@ -41,7 +41,7 @@
     height: 50px;
 }
 
-#main_form{
+.main_form {
     display: none;
     padding: 20px;
 }
