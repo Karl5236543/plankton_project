@@ -1,0 +1,124 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}
+{{ current_station.name }}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-7 gx-0">
+            <div id="map"></div>
+        </div>
+        <div id="back"></div>
+        <div class="col-md-5 gx-0">
+            <div id="description">
+                <h1>станция: {{ current_station.name }}</h1>
+                Время создания : {{current_station.create_time}} <br>
+                Название станции : {{current_station.name}} <br>
+                глубина : {{current_station.depth}} <br>
+                дата прибытия : {{current_station.date}} <br>
+                количество образцов : {{current_station.get_station_count}} <br>
+            </div>
+            <div class="row" id="header">
+                <div class="col-md-3">
+                    <select class="form-select" aria-label="Default select example" style="display: inline-block;">
+                        {% for label in thead %}
+                        <option value="{{ label }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-5" id="search">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Искать</button>
+                    </form>
+                </div>
+                <div class="col-md-4" id="btngrout">
+                    <button type="button" class="btn btn-primary" id="create">добавить</button>
+                    <button type="button" class="btn btn-secondary" id="edit">Редактировать</button>
+                    <button type="button" class="btn btn-success" id="delete">Удалить</button>
+                </div>
+            </div>
+            <div id="table_container">
+                <table class="table">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" style="width: 50px;"></th>
+                            {% for label in thead %}
+                            <th scope="col">{{ label }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sample in samples %}
+                        <tr class="table_tr">
+                            <td class="table_td" scope="row">
+                                <a type="button" class="btn btn-outline-primary btn-sm default_link" href="{{ sample.get_absolute_url }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                        class="bi bi-arrow-right-square-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M0 14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12zm4.5-6.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5a.5.5 0 0 1 0-1z" />
+                                    </svg>
+                                </a>
+
+                                <button value="{{sample.id}}" class="btn btn-outline-warning btn-sm edit_link" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                        class="bi bi-gear-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+                                    </svg>
+                                </button>
+                                <button value="{{sample.id}}" type="button" class="btn btn-outline-danger btn-sm delete_link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                        class="bi bi-backspace-reverse-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M0 3a2 2 0 0 1 2-2h7.08a2 2 0 0 1 1.519.698l4.843 5.651a1 1 0 0 1 0 1.302L10.6 14.3a2 2 0 0 1-1.52.7H2a2 2 0 0 1-2-2V3zm9.854 2.854a.5.5 0 0 0-.708-.708L7 7.293 4.854 5.146a.5.5 0 1 0-.708.708L6.293 8l-2.147 2.146a.5.5 0 0 0 .708.708L7 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L7.707 8l2.147-2.146z" />
+                                    </svg>
+                                </button>
+                            </td>
+                            <td class="table_td" scope="row">
+                                {{sample.create_time}}
+                            </td>
+                            <td class="table_td" id="td_horizont_{{sample.id}}" scope="row">
+                                {{sample.horizont}}
+                            </td>
+                            <td class="table_td" id="td_time_{{sample.id}}" scope="row">
+                                {{sample.time}}
+                            </td>
+                            <td class="table_td" scope="row">
+                                {{sample.get_cell_count}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <form action="" method="POST" id="main_form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="horizont" class="form-label">горизонт</label>
+                    <input name="horizont" type="number" class="form-control" id="horizont_input"
+                        aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="time" class="form-label">время сбора</label>
+                    <input name="time" type="datetime-local" class="form-control" id="time_input" value="2017-06-01T08:30">
+                </div>
+                <input type="hidden" name="station_id" value="{{current_station.id}}">
+                <button type="submit" class="btn btn-primary" id="add_btn">изменить</button>
+                <button type="button" class="btn btn-warning">отменить</button>
+            </form>
+            <div id="delete_menu">
+                <h4>Вы уверены, что хотите удалить этот район?</h4>
+                <a type="button" class="btn btn-danger" id="delete_button">Удалить</a>
+                <button type="button" class="btn btn-primary" id="cancel_button">отмена</button>
+            </div>
+            <div id="menu">
+                <button type="button" class="btn btn-primary">Создать отчёт</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src='{% static "research_base/js/station.js" %}'></script>
+{% endblock %}
