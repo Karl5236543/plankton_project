@@ -107,24 +107,23 @@
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="type" class="form-label">тип</label>
-                    <select name="type" value="{{cell.type_id}}" class="form-select">
+                    <select name="type" class="form-select">
+                        <option></option>
                         {% for type in types %}
-                        <option value="{{type.id}}">{{type.name}}</option>
+                        <option {% if cell.type.id == type.id %}selected{% endif %} value="{{type.id}}">{{type.name}}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="cell_form" class="form-label">тип</label>
-                    <select name="cell_form" value="{{cell.form_id}}" class="form-select">
+                    <select name="cell_form" class="form-select form_edit_input" id="{{cell.id}}">
+                        <option></option>
                         {% for form in forms %}
-                        <option value="{{form.id}}">{{form.name}}</option>
+                        <option {% if cell.form.id == form.id %}selected{% endif %} value="{{form.id}}">{{form.name}}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label for="params" class="form-label">название параметра=значение</label>
-                    <textarea class="form-control" name="params" rows="3">{{cell.params_text}}
-                    </textarea>
+                <div class="md-3 p_container" id="edit_params_container_{{cell.id}}">
                 </div>
                 <input type="hidden" name="sample_id" value="{{current_sample.id}}">
                 <button type="submit" class="btn btn-primary edit_btn">изменить</button>
@@ -136,6 +135,7 @@
                 <div class="mb-3">
                     <label for="type" class="form-label">тип</label>
                     <select name="type" class="form-select">
+                        <option></option>
                         {% for type in types %}
                         <option value="{{type.id}}">{{type.name}}</option>
                         {% endfor %}
@@ -144,6 +144,7 @@
                 <div class="mb-3">
                     <label for="cell_form" class="form-label">форма</label>
                     <select name="cell_form" class="form-select" id="form_input">
+                        <option></option>
                         {% for form in forms %}
                         <option value="{{form.id}}">{{form.name}}</option>
                         {% endfor %}
@@ -153,7 +154,7 @@
                     <label for="cell_count" class="form-label">Количество</label>
                     <input name="cell_count" type="number", class="form-control">
                 </div>
-                <div class="md-3" id="params_container">
+                <div class="md-3 p_container" id="params_container">
                 </div>
                 <input type="hidden" name="sample_id" value="{{current_sample.id}}">
                 <button type="submit" class="btn btn-primary" id="add_btn">добавить</button>

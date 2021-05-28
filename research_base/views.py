@@ -39,7 +39,16 @@ def get_form_params_view(request, id):
     params = Form.objects.get(id=id).parameters_V.split(',')
     return JsonResponse({'params': list(params)})
 
-
+def get_cell_view(request, id):
+    cell = Cell.objects.get(id=id)
+    cell_params = [{"name": p.name, "value": p.value} for p in Cell_params.objects.filter(cell_id=id)]
+    cell_data = {
+        'type': cell.type.name,
+        "form": cell.form.name,
+        "params": cell_params
+    }
+    print(cell_data)
+    return JsonResponse(cell_data)
 #----------------------------------------------------------------------------------#
 # Cell
 #----------------------------------------------------------------------------------#

@@ -69,6 +69,13 @@
     background: rgba(121, 121, 121, 0.644);
 }
 
-#params_container {
+.p_container {
     width: fit-content;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.param_label {
+    text-align: center;
+    padding-top: 5px;
 }

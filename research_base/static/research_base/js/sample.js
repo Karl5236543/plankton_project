@@ -39,8 +39,6 @@ delete_menu = document.getElementById("delete_menu")
 delete_button = document.getElementById("delete_button")
 back = document.getElementById("back")
 
-params_container = document.getElementById("params_container")
-
 
 for (var i = 0; i < edit_links.length; i++) {
     edit_links[i].onclick = function () {
@@ -49,6 +47,10 @@ for (var i = 0; i < edit_links.length; i++) {
         edit_form.style.display = 'block'
         table_container.style.display = 'none'
         add_btn.textContent = 'Изменить'
+
+        url = 'http://localhost:8000/get_cell/' + id
+        ajax_get(url, set_cell_params, id)
+
     }
 }
 
@@ -58,7 +60,7 @@ document.getElementById("create").onclick = function () {
     table_container.style.display = 'none'
 };
 
-function ajax_get(url, callback) {
+function ajax_get(url, callback, container_id) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -68,30 +70,61 @@ function ajax_get(url, callback) {
                 console.log(err.message + " in " + xmlhttp.responseText);
                 return;
             }
-            callback(data);
+            callback(data, container_id);
         }
     };
 
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
+};
+
+
+function set_cell_params(cell, container_id) {
+    edit_params_container = document.getElementById("edit_params_container_" + container_id)
+    while (edit_params_container.firstChild) {
+        edit_params_container.removeChild(edit_params_container.lastChild);
+    }
+    for (var i = 0; i < cell['params'].length; i++) {
+        p = cell['params'][i]
+        p_name = p["name"]
+        p_value = p["value"]
+        var div = document.createElement('div');
+        div.innerHTML =  '<div class="mb-3 row"><div class="col-md-2 gx-0 param_label">'+ p_name +':</div><div class="col-md-10 gx-0"><input value="'+ p_value +'" type="number" class="form-control" name='+ p_name +'></div></div>'
+        edit_params_container.append(div)
+    }
+};
+
+
+function setparams(params, container_id) {
+    container = document.getElementById(container_id)
+    while (container.firstChild) {
+        container.removeChild(container.lastChild);
+    }
+    for (var i = 0; i < params['params'].length; i++) {
+        p = params['params'][i]
+        var div = document.createElement('div');
+        div.innerHTML =  '<div class="mb-3 row"><div class="col-md-2 gx-0 param_label">'+ p +':</div><div class="col-md-10 gx-0"><input type="number" class="form-control" name='+ p +' id="param_"'+ p +'></div></div>'
+        container.append(div)
+    }
 }
+
 
 document.getElementById("form_input").onchange = function () {
     id = this.value
+    container_id = "params_container"
     url = 'http://localhost:8000/get_form_params/' + id
-    ajax_get(url, function (params) {
-        while (params_container.firstChild) {
-            params_container.removeChild(params_container.lastChild);
-        }
-        for (var i = 0; i < params['params'].length; i++) {
-            p = params['params'][i]
-            var div = document.createElement('div');
-            div.innerHTML =  '<div class="mb-3 row"><label for="'+ p +'" class="col-sm-2 col-form-label">'+ p +'</label><div class="col-sm-10"><input type="number" class="form-control" name='+ p +'></div></div>'
-            params_container.append(div)
-        }
-    })
+    ajax_get(url, setparams, container_id)
 }
 
+form_edit_input = document.getElementsByClassName("form_edit_input")
+for (var i=0; i<form_edit_input.length; i++) {
+    form_edit_input[i].onchange = function () {
+        id = this.value
+        container_id = this.id
+        url = 'http://localhost:8000/get_form_params/' + id
+        ajax_get(url, setparams, "edit_params_container_" + container_id)
+    }
+}
 
 for (var i = 0; i < delete_links.length; i++) {
     delete_links[i].onclick = function () {

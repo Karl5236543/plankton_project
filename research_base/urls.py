@@ -25,4 +25,5 @@ urlpatterns = [
     path('cell_delete/<uuid:id>', cell_delete_view, name='cell_delete'),
 
     path('get_form_params/<uuid:id>', get_form_params_view, name='get_form_params'),
+    path('get_cell/<uuid:id>', get_cell_view, name='get_cell'),
 ]
