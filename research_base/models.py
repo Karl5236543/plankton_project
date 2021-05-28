@@ -103,6 +103,9 @@ class Form(models.Model):
     def get_parameters_V(self):
         return self.parameters_V.split(',')
 
+    def get_parameters_P(self):
+        return self.parameters_P.split(',')
+
 
     def __str__(self):
         return f"{self.name}"
@@ -120,9 +123,16 @@ class Type(models.Model):
 
 
 class Cell_params(models.Model):
+    FORMULA = (
+        ('V', 'Volume'),
+        ('P', 'Perimeter'),
+    )
     cell = models.ForeignKey('Cell', on_delete=models.CASCADE, related_name='parameters')
     name = models.CharField(max_length=10)
     value = models.FloatField()
+    formula = models.CharField(max_length=1,
+                                      choices=FORMULA,
+                                      default='V')
 
     def __str__(self):
         return f"{self.name}"

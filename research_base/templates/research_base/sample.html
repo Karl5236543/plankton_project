@@ -123,7 +123,13 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="md-3 p_container" id="edit_params_container_{{cell.id}}">
+                <div class="mb-3">
+                    <label for="cell_count" class="form-label">Количество</label>
+                    <input value="{{cell.count}}" name="cell_count" type="number", class="form-control">
+                </div>
+                <div class="md-3 p_container" id="edit_params_V_container_{{cell.id}}">
+                </div>
+                <div class="md-3 p_container" id="edit_params_P_container_{{cell.id}}">
                 </div>
                 <input type="hidden" name="sample_id" value="{{current_sample.id}}">
                 <button type="submit" class="btn btn-primary edit_btn">изменить</button>
@@ -154,7 +160,9 @@
                     <label for="cell_count" class="form-label">Количество</label>
                     <input name="cell_count" type="number", class="form-control">
                 </div>
-                <div class="md-3 p_container" id="params_container">
+                <div class="md-3 p_container" id="params_V_container">
+                </div>
+                <div class="md-3 p_container" id="params_P_container">
                 </div>
                 <input type="hidden" name="sample_id" value="{{current_sample.id}}">
                 <button type="submit" class="btn btn-primary" id="add_btn">добавить</button>
@@ -163,7 +171,7 @@
 
             <div id="delete_menu">
                 <h4>Вы уверены, что хотите удалить этот вид?</h4>
-                <a name="cell" type="button" class="btn btn-danger delete_button">Удалить</a>
+                <a name="cell" type="button" class="btn btn-danger delete_button" id="delete_button">Удалить</a>
                 <button type="button" class="btn btn-primary" id="cancel_button">отмена</button>
             </div>
             <div id="menu">

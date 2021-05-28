@@ -36,16 +36,19 @@ def index(request):
 
 
 def get_form_params_view(request, id):
-    params = Form.objects.get(id=id).parameters_V.split(',')
-    return JsonResponse({'params': list(params)})
+    params_V = Form.objects.get(id=id).parameters_V.split(',')
+    params_P = Form.objects.get(id=id).parameters_P.split(',')
+    return JsonResponse({'params_V': list(params_V), 'params_P': list(params_P)})
 
 def get_cell_view(request, id):
     cell = Cell.objects.get(id=id)
-    cell_params = [{"name": p.name, "value": p.value} for p in Cell_params.objects.filter(cell_id=id)]
+    cell_params_V = [{"name": p.name, "value": p.value} for p in Cell_params.objects.filter(cell_id=id, formula='V')]
+    cell_params_P = [{"name": p.name, "value": p.value} for p in Cell_params.objects.filter(cell_id=id, formula='P')]
     cell_data = {
         'type': cell.type.name,
         "form": cell.form.name,
-        "params": cell_params
+        "params_V": cell_params_V,
+        "params_P": cell_params_P,
     }
     print(cell_data)
     return JsonResponse(cell_data)
@@ -79,17 +82,36 @@ def cell_create_view(request):
     new_cell = Cell(sample=sample, type=cell_type, form=cell_form, count=cell_count)
     new_cell.save()
     for param in cell_form.get_parameters_V():
-        Cell_params.objects.create(cell=new_cell, name=param, value=request.POST.get(param))
+        Cell_params.objects.create(cell=new_cell, name=param, value=request.POST.get('V_' + param), formula='V')
+    for param in cell_form.get_parameters_P():
+        Cell_params.objects.create(cell=new_cell, name=param, value=request.POST.get('P_' + param), formula='P')
 
     return redirect(sample.get_absolute_url(), permanent=False)
 
 
 def cell_edit_view(request, id):
-    return redirect('/', permanent=False)
+    cell = Cell.objects.get(id=id)
+    station = Sample.objects.get(id=cell.sample_id)
+    cell.type = Type.objects.get(id=request.POST.get('type'))
+    cell.form = Form.objects.get(id=request.POST.get('cell_form'))
+    cell.count = request.POST.get('cell_count')
+    cell.save()
+    for parameter in Cell_params.objects.filter(cell_id=id, formula='V'):
+        parameter.value = request.POST.get('V_' + parameter.name)
+        parameter.save()
+
+    for parameter in Cell_params.objects.filter(cell_id=id, formula='P'):
+        parameter.value = request.POST.get('P_' + parameter.name)
+        parameter.save()
+
+    return redirect(station.get_absolute_url(), permanent=False)
 
 
 def cell_delete_view(request, id):
-    return redirect('/', permanent=False)
+    cell = Cell.objects.get(id=id)
+    station = Sample.objects.get(id=cell.sample_id)
+    cell.delete()
+    return redirect(station.get_absolute_url(), permanent=False)
 
 
 #----------------------------------------------------------------------------------#
@@ -118,8 +140,8 @@ def sample_edit_view(request, id):
 
 def sample_delete_view(request, id):
     sample = Sample.objects.get(id=id)
-    sample.delete()
     station = Station.objects.get(id=sample.station_id)
+    sample.delete()
     return redirect(station.get_absolute_url(), permanent=False)
 
 
@@ -131,7 +153,6 @@ def Stations_view(request):
 def station_view(request, id):
     thead = ["время создания", "горизонт", "время сбора", "количество клеток"]
     samples = Sample.objects.filter(station_id=id)
-    print(samples)
     current_station = Station.objects.get(id=id)
     return render(request, 'research_base/station.html', context={
         'thead': thead,
@@ -169,8 +190,8 @@ def station_edit_view(request, id):
 
 def station_delete_view(request, id):
     station = Station.objects.get(id=id)
-    station.delete()
     research = Research.objects.get(id=station.research_id)
+    station.delete()
     return redirect(research.get_absolute_url(), permanent=False)
 
 
