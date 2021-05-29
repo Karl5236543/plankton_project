@@ -1,0 +1,75 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}
+{{ cell.type }}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-7 gx-0">
+            <div id="map"></div>
+        </div>
+        <div id="back"></div>
+        <div class="col-md-5 gx-0">
+            <div class="row">
+                <div class="col-md-11">
+                    <div id="description">
+                        <h1>тип клетки: {{ cell.type }}</h1>
+                    </div>
+                </div>
+                <div class="col-md-1 gx-0">
+                    <a id="return_btn" type="button" class="btn btn-primary" href="{{cell.sample.get_absolute_url}}">
+                        <div id="return_btn_text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+                                <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="row" id="header">
+            <div id="table_container" class="cell_info_container">
+                <h5>тип : {{cell.type.name}}</h5>
+                <h5>количество : {{cell.count}}</h5>
+                <br>
+                <h5>форма : {{cell.form.name}}</h5>
+                <img src="https://microexcel.ru/wp-content/uploads/2020/04/ploshad-shara-cover.png" alt="" class="form_image">
+                <br>
+                <h5>формула для расчёта объёма : {{cell.form.formula_V}}</h5>
+                <table class="table table-striped table-hover table_params">
+                    <tbody>
+                        {% for parameter in cell_params_V %}
+                            <tr>
+                                {% for item in parameter %}
+                                <td>{{item}}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <br>
+                <h5>формула для расчёта площади поверхности : {{cell.form.formula_P}}</h5>
+                <table class="table table-striped table-hover table_params">
+                    <tbody>
+                        {% for parameter in cell_params_P %}
+                            <tr>
+                                {% for item in parameter %}
+                                <td>{{item}}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+                
+            </div>
+            <div id="menu">
+                <button type="button" class="btn btn-primary">Создать отчёт</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src='{% static "research_base/js/main.js" %}'></script>
+{% endblock %}

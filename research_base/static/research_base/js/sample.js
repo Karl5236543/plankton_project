@@ -40,6 +40,19 @@ delete_button = document.getElementById("delete_button")
 back = document.getElementById("back")
 
 
+edit_form_return_btn_list = document.getElementsByClassName("edit_form_return_btn")
+for (var i=0; i< edit_form_return_btn_list.length; i++) {
+    edit_form_return_btn_list[i].onclick = function() {
+        location.reload()
+    }
+    
+}
+
+document.getElementsByClassName("create_form_return_btn")[0].onclick = function() {
+    location.reload()
+}
+
+
 for (var i = 0; i < edit_links.length; i++) {
     edit_links[i].onclick = function () {
         id = this.value
@@ -56,6 +69,9 @@ for (var i = 0; i < edit_links.length; i++) {
 
 
 document.getElementById("create").onclick = function () {
+    if (table_container.style.display=='none') {
+        location.reload()
+    }
     create_form.style.display = 'block'
     table_container.style.display = 'none'
 };
@@ -181,6 +197,7 @@ for (var i = 0; i < delete_links.length; i++) {
 
 
 document.getElementById("edit").onclick = function () {
+
     if (edit_links[0].style.display == 'inline') {
         for (var i = 0; i < default_links.length; i++) {
             default_links[i].style.display = 'inline';
@@ -206,6 +223,7 @@ document.getElementById("edit").onclick = function () {
 
 
 document.getElementById("delete").onclick = function () {
+
     if (delete_links[0].style.display == 'inline') {
         for (var i = 0; i < default_links.length; i++) {
             default_links[i].style.display = 'inline';

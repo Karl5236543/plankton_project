@@ -10,6 +10,21 @@ class Research(models.Model):
     area = models.JSONField(null=True, blank=True)
     create_time = models.DateTimeField(auto_now_add=True)
 
+    THEAD = [
+        ("create_time", "время создания"),
+        ("name", "название"),
+        ("area_name", "название раёна"),
+        ("count", "количество станций")
+    ]
+
+    @staticmethod
+    def get_field_name(title):
+        return [row[0] for row in Research.THEAD if row[1] == title][0]
+    
+    @staticmethod
+    def get_thead():
+        return [row[1] for row in Research.THEAD]
+
     def __str__(self):
         return f"{self.name}"
 
@@ -36,6 +51,22 @@ class Station(models.Model):
     research = models.ForeignKey('Research', on_delete=models.CASCADE, related_name='stations')
     create_time = models.DateTimeField(auto_now_add=True)
 
+    THEAD = [
+        ("create_time", "время создания"),
+        ("name", "название"),
+        ("depth", "глубина"),
+        ("date", "время прибытия"),
+        ("count", "количество образцов")
+    ]
+
+    @staticmethod
+    def get_field_name(title):
+        return [row[0] for row in Station.THEAD if row[1] == title][0]
+    
+    @staticmethod
+    def get_thead():
+        return [row[1] for row in Station.THEAD]
+
     def __str__(self):
         return f"{self.name}"
 
@@ -58,6 +89,21 @@ class Sample(models.Model):
     time = models.DateTimeField()
     station = models.ForeignKey('Station', on_delete=models.CASCADE, related_name='samples')
     create_time = models.DateTimeField(auto_now_add=True)
+
+    THEAD = [
+        ("create_time", "время создания"),
+        ("horizont", "горизонт"),
+        ("time", "время сбора"),
+        ("count", "количество клеток")
+    ]
+
+    @staticmethod
+    def get_field_name(title):
+        return [row[0] for row in Sample.THEAD if row[1] == title][0]
+    
+    @staticmethod
+    def get_thead():
+        return [row[1] for row in Sample.THEAD]
 
     def __str__(self):
         return f"{self.time} {self.time}"
@@ -82,6 +128,24 @@ class Cell(models.Model):
     count = models.IntegerField()
     create_time = models.DateTimeField(auto_now_add=True)
 
+
+    THEAD = [
+        ("create_time", "время создания"),
+        ("type", "тип"),
+        ("form", "форма"),
+        ("count", "количество"),
+        ("V", "V"),
+        ("P", "P"),
+    ]
+
+    @staticmethod
+    def get_field_name(title):
+        return [row[0] for row in Cell.THEAD if row[1] == title][0]
+    
+    @staticmethod
+    def get_thead():
+        return [row[1] for row in Cell.THEAD]
+
     def get_absolute_url(self):
         return reverse('cell', kwargs={'id': self.id})
 
@@ -99,6 +163,7 @@ class Form(models.Model):
     formula_P = models.CharField(max_length=50)
     parameters_V = models.CharField(max_length=50)
     parameters_P = models.CharField(max_length=50)
+    #photo = models.ImageField(upload_to='cars')
 
     def get_parameters_V(self):
         return self.parameters_V.split(',')
@@ -136,3 +201,6 @@ class Cell_params(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+    def get_absolute_url(self):
+        return reverse('cell', kwargs={'id': self.id})

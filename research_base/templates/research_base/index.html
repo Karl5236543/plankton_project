@@ -1,10 +1,19 @@
 {% extends 'base_template.html' %}
-
+{% load static %}
 {% block title %}
     Главная страница
 {% endblock %}
 
 {% block content %}
-    <h1>Главная страница</h1>
-    Описание проекта...
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-7 gx-0">
+            <div id="map"></div>
+        </div>
+        <div class="col-md-5 gx-0">
+            
+        </div>
+    </div>
+</div>
+<script src='{% static "research_base/js/sample.js" %}'></script>
 {% endblock %}

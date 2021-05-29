@@ -50,23 +50,34 @@ def get_cell_view(request, id):
         "params_V": cell_params_V,
         "params_P": cell_params_P,
     }
-    print(cell_data)
     return JsonResponse(cell_data)
+
+
+def cell_view(request, id):
+    
+    cell = Cell.objects.get(id=id)
+    cell_params_V = [(p.name, p.value) for p in Cell_params.objects.filter(cell_id=id, formula='V')]
+    cell_params_P = [(p.name, p.value) for p in Cell_params.objects.filter(cell_id=id, formula='P')]
+    return render(request, 'research_base/cell.html',context={
+        'cell': cell,
+        "cell_params_V": cell_params_V,
+        "cell_params_P": cell_params_P,
+    })
 #----------------------------------------------------------------------------------#
 # Cell
 #----------------------------------------------------------------------------------#
 def sample_view(request, id):
-    thead = ["время создания", "тип", "форма", "количество", "V", "P"]
+    
     cells = Cell.objects.filter(sample_id=id)
     current_sample = Sample.objects.get(id=id)
     types = Type.objects.all()
     forms = Form.objects.all()
     return render(request, 'research_base/sample.html', context={
-        'thead': thead,
         'cells': cells,
         'types': types,
         'forms': forms,
         'current_sample': current_sample,
+        'thead': Cell.get_thead(),
     })
 
 def cell_create_view(request):
@@ -151,13 +162,31 @@ def Stations_view(request):
 
 
 def station_view(request, id):
-    thead = ["время создания", "горизонт", "время сбора", "количество клеток"]
-    samples = Sample.objects.filter(station_id=id)
+    try:
+        title = request.GET.get('search_parameter')
+    except KeyError:
+        pass
+    try:
+        value = request.GET.get('search_name')
+    except KeyError:
+        pass
+    
+    if (title and value):
+        field = Sample.get_field_name(title)
+        filter_params = {
+            'station_id' : id,
+            field: request.GET.get('search_name')
+        }
+        samples = Sample.objects.filter(**filter_params)
+    else:
+        samples = Sample.objects.filter(station_id=id)
     current_station = Station.objects.get(id=id)
     return render(request, 'research_base/station.html', context={
-        'thead': thead,
         'samples': samples, 
         'current_station': current_station,
+        'thead': Sample.get_thead(),
+        "search_name": value,
+        "search_parameter": title,
     })
 
 
@@ -205,23 +234,57 @@ def Stations_view(request):
 # Research
 #----------------------------------------------------------------------------------#
 def research_list_view(request):
-    thead = ["время создания", "название", "название района", "количество станций"]
-    researches = Research.objects.all()
+    try:
+        title = request.GET.get('search_parameter')
+    except KeyError:
+        pass
+    try:
+        value = request.GET.get('search_name')
+    except KeyError:
+        pass
+    
+    if (title and value):
+        field = Research.get_field_name(title)
+        filter_params = {field: request.GET.get('search_name')}
+        researches = Research.objects.filter(**filter_params)
+    else:
+        researches = Research.objects.all()
     return render(request, 'research_base/research_list.html', context={
-        'thead': thead,
+        'thead': Research.get_thead(),
         'researches': researches,
+        "search_name": value,
+        "search_parameter": title,
     })
 
 
 def research_view(request, id):
-    thead = ["время создания", "название", "глубина", "время прибытия", "количество образцов"]
-    stations = Station.objects.filter(research_id=id)
+    try:
+        title = request.GET.get('search_parameter')
+    except KeyError:
+        pass
+    try:
+        value = request.GET.get('search_name')
+    except KeyError:
+        pass
+    
+    if (title and value):
+        field = Station.get_field_name(title)
+        filter_params = {
+            'research_id' : id,
+            field: request.GET.get('search_name')
+        }
+        stations = Station.objects.filter(**filter_params)
+    else:
+        stations = Station.objects.filter(research_id=id)
+        
     current_research = Research.objects.get(id=id)
     return render(request, 'research_base/research.html', context={
-        'thead': thead,
         'stations': stations ,
         'current_research': current_research,
         "page": "research",
+        'thead': Station.get_thead(),
+        "search_name": value,
+        "search_parameter": title,
     })
 
 

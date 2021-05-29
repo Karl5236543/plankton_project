@@ -2,11 +2,43 @@
     height: 1245px;
 }
 
+#header_link {
+    color: white;
+
+}
+
+#return_btn {
+    width: 100%;
+    height: 100%;
+    margin-left: -5px;
+}
+
+#return_btn_text {
+    position: relative;
+    top: 50%;
+    margin-top: -22px;
+    
+}
+
+#header_link {
+    color: rgb(255, 255, 255); /* Цвет ссылок */
+}
+#header_link:visited {
+    color: #ffffff; /* Цвет посещенных ссылок */
+}
+#header_link:active {
+    color: #000000; /* Цвет активных ссылок */
+}
+
+#header_link:hover {
+    color: #000000;
+}
+
 #description {
     color: rgb(255, 255, 255);
     min-height: 100px;
     background-color: rgb(73, 167, 255);
-    padding: 5px;
+    padding: 10px;
 }
 
 #header {
@@ -78,4 +110,18 @@
 .param_label {
     text-align: center;
     padding-top: 5px;
+}
+
+.table_params {
+    width: 200px;
+}
+
+.form_image {
+    width: 400px;
+    margin-bottom: 30px;
+}
+
+.cell_info_container {
+    padding-left: 30px;
+    padding-top: 30px;
 }

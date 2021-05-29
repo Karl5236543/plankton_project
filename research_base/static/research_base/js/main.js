@@ -58,6 +58,17 @@ document.getElementById("create").onclick = function () {
 
 };
 
+edit_form_return_btn_list = document.getElementsByClassName("edit_form_return_btn")
+for (var i = 0; i < edit_form_return_btn_list.length; i++) {
+    edit_form_return_btn_list[i].onclick = function () {
+        location.reload()
+    }
+
+}
+
+document.getElementsByClassName("create_form_return_btn")[0].onclick = function () {
+    location.reload()
+}
 
 for (var i = 0; i < delete_links.length; i++) {
     delete_links[i].onclick = function () {

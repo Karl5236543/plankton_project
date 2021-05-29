@@ -26,4 +26,5 @@ urlpatterns = [
 
     path('get_form_params/<uuid:id>', get_form_params_view, name='get_form_params'),
     path('get_cell/<uuid:id>', get_cell_view, name='get_cell'),
+    path('cell/<uuid:id>', cell_view, name='cell'),
 ]
