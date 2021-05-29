@@ -163,7 +163,7 @@ class Form(models.Model):
     formula_P = models.CharField(max_length=50)
     parameters_V = models.CharField(max_length=50)
     parameters_P = models.CharField(max_length=50)
-    #photo = models.ImageField(upload_to='cars')
+    photo = models.ImageField(upload_to='form/%Y/%m/%d/', default='form/default.png')
 
     def get_parameters_V(self):
         return self.parameters_V.split(',')
