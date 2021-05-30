@@ -175,6 +175,7 @@ def station_view(request, id):
     else:
         samples = Sample.objects.filter(station_id=id)
     current_station = Station.objects.get(id=id)
+    
     return render(request, 'research_base/station.html', context={
         'samples': samples, 
         'current_station': current_station,
@@ -191,9 +192,10 @@ def station_create_view(request):
     name = request.POST.get('name')
     depth = request.POST.get('depth')
     date = request.POST.get('date')
+    coords = float(request.POST.get('lng')), float(request.POST.get('lat'))
     research_id = request.POST.get('research_id')
     research=Research.objects.get(id=research_id)
-    station = Station(name=name, depth=depth, date=date, coords={'x':12312, 'y':6725}, research=research)
+    station = Station(name=name, depth=depth, date=date, coords=coords, research=research)
     station.save()
     return redirect(research.get_absolute_url(), permanent=False)
 

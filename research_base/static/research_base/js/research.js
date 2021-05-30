@@ -18,3 +18,32 @@ map.on('load', function () {
     });
 });
 
+function onDragEnd() {
+    var lngLat = marker.getLngLat();
+    document.getElementById("lat").value = lngLat.lat
+    document.getElementById("lng").value = lngLat.lng
+}
+
+
+
+var marker;
+function add_draggable_marker() {
+    coords = map.getCenter()
+    marker = new mapboxgl.Marker({
+        draggable: true
+    })
+        .setLngLat([coords.lng, coords.lat])
+        .addTo(map)
+        .on('dragend', onDragEnd);
+}
+
+document.getElementById("set_coords").onclick = function () {
+    if (this.classList.contains('active')) {
+        this.classList.remove("active")
+        marker.remove();
+    }
+    else {
+        this.classList.add("active")
+        add_draggable_marker();
+    }
+}

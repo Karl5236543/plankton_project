@@ -168,10 +168,37 @@
                     <label for="depth" class="form-label">глубина</label>
                     <input name="depth" type="number" class="form-control">
                 </div>
+                <p>Координаты</p>
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                      <label for="lat" class="col-form-label">lat</label>
+                    </div>
+                    <div class="col-auto">
+                      <input name="lat" type="text" id="lat" class="form-control" aria-describedby="passwordHelpInline">
+                    </div>
+                    <div class="col-auto">
+                        <label for="lng" class="col-form-label">lng</label>
+                    </div>
+                    <div class="col-auto">
+                        <input name="lng" type="text" id="lng" class="form-control" aria-describedby="passwordHelpInline">
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" id="set_coords" class="btn btn-outline-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                            </svg>
+                            Установить точку на карте
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <br>
+
                 <div class="mb-3">
                     <label for="date" class="form-label">время прибытия</label>
                     <input type="datetime-local" id="date_input" name="date">
                 </div>
+                <br>
                 <input type="hidden" name="research_id" value="{{current_research.id}}">
                 <button type="submit" class="btn btn-primary" id="add_btn">добавить</button>
                 <button type="button" class="btn btn-warning create_form_return_btn">отменить</button>

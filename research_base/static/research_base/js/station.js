@@ -16,5 +16,6 @@ map.on('load', function () {
             'circle-stroke-color': 'white',
         }
     });
+    //console.log(station_coords);
     map.flyTo({center: JSON.parse(station_coords), zoom: 10});
 });
