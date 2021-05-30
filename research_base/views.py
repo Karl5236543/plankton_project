@@ -1,34 +1,8 @@
-from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.conf import settings
-from django.views.generic import View
 from .models import *
-import json
-
-
-def get_stations_json(id=None):
-    stations = {
-        "type": "FeatureCollection",
-        "features": []
-    }
-    station_list = Station.objects.filter(research_id=id) if id else Station.objects.all()
-    for station in station_list:
-        stations["features"].append({
-            "type": "Feature",
-            "properties": {
-                "name": station.name,
-                "depth": station.depth,
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    station.coords["x"],
-                    station.coords["y"]
-                ]
-            }
-        })
-    return stations
+from .utils import *
 
 
 def index(request):
@@ -56,6 +30,13 @@ def get_cell_view(request, id):
 def cell_view(request, id):
     
     cell = Cell.objects.get(id=id)
+
+    form = cell.form
+    cell_params_dict_V = {p.name: p.value for p in Cell_params.objects.filter(cell=cell.id, formula='V')}
+    cell_params_dict_P = {p.name: p.value for p in Cell_params.objects.filter(cell_id=cell.id, formula='P')}
+    cell.V = calculate(form.formula_V, cell_params_dict_V)
+    cell.P = calculate(form.formula_P, cell_params_dict_P)
+
     cell_params_V = [(p.name, p.value) for p in Cell_params.objects.filter(cell_id=id, formula='V')]
     cell_params_P = [(p.name, p.value) for p in Cell_params.objects.filter(cell_id=id, formula='P')]
     return render(request, 'research_base/cell.html',context={
@@ -69,6 +50,13 @@ def cell_view(request, id):
 def sample_view(request, id):
     
     cells = Cell.objects.filter(sample_id=id)
+    for cell in cells:
+        form = cell.form
+        cell_params_V = {p.name: p.value for p in Cell_params.objects.filter(cell=cell.id, formula='V')}
+        cell_params_P = {p.name: p.value for p in Cell_params.objects.filter(cell_id=cell.id, formula='P')}
+        cell.V = calculate(form.formula_V, cell_params_V)
+        cell.P = calculate(form.formula_P, cell_params_P)
+
     current_sample = Sample.objects.get(id=id)
     types = Type.objects.all()
     forms = Form.objects.all()
@@ -156,11 +144,6 @@ def sample_delete_view(request, id):
     return redirect(station.get_absolute_url(), permanent=False)
 
 
-def Stations_view(request):
-    stations = get_stations_json()
-    return JsonResponse(stations)
-
-
 def station_view(request, id):
     try:
         title = request.GET.get('search_parameter')
@@ -222,13 +205,6 @@ def station_delete_view(request, id):
     research = Research.objects.get(id=station.research_id)
     station.delete()
     return redirect(research.get_absolute_url(), permanent=False)
-
-
-def Stations_view(request):
-    stations = get_stations_json()
-    return JsonResponse(stations)
-
-
 
 #----------------------------------------------------------------------------------#
 # Research
@@ -313,5 +289,7 @@ def research_delete_view(request, id):
 
 
 
-
+#----------------------------------------------------------------------------------#
+# Calculations
+#----------------------------------------------------------------------------------#
 

@@ -32,14 +32,14 @@
             
             <div class="row" id="header">
             <div id="table_container" class="cell_info_container">
-                <h5>тип : {{cell.type.name}}</h5>
+                <h5>тип: {{cell.type.name}}</h5>
                 <p>{{cell.type.description}}</p>
-                <h5>количество : {{cell.count}}</h5>
+                <h5>количество: {{cell.count}}</h5>
                 <br>
                 <h5>форма : {{cell.form.name}}</h5>
                 <img src="{{cell.form.photo.url}}" alt="" class="form_image">
                 <br>
-                <h5>формула для расчёта объёма : {{cell.form.formula_V}}</h5>
+                <h5>формула для расчёта объёма: {{cell.form.formula_V}}</h5>
                 <table class="table table-striped table-hover table_params">
                     <tbody>
                         {% for parameter in cell_params_V %}
@@ -52,7 +52,7 @@
                     </tbody>
                 </table>
                 <br>
-                <h5>формула для расчёта площади поверхности : {{cell.form.formula_P}}</h5>
+                <h5>формула для расчёта площади поверхности: {{cell.form.formula_P}}</h5>
                 <table class="table table-striped table-hover table_params">
                     <tbody>
                         {% for parameter in cell_params_P %}
@@ -64,6 +64,8 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <h5>Объём клетки (V): {{cell.V}}</h5>
+                <h5>Площадь поверхности клетки (P): {{cell.P}}</h5>
                 
                 
             </div>
