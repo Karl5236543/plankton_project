@@ -28,8 +28,17 @@ def get_cell_view(request, id):
 
 
 def cell_view(request, id):
-    
+    cells_type_data = []
+    types = Type.objects.all()
+    for type in types:
+        cells_type_data.append(
+            Cells_type_data(type.name, sum([cell.count for cell in Cell.objects.filter(type_id=type.id)] + [0]), type.id))
+
     cell = Cell.objects.get(id=id)
+    if 'type_id' in request.GET:
+        type_id = Type.objects.get(id=request.GET.get('type_id')).id
+    else:
+        type_id = cell.type_id
 
     form = cell.form
     cell_params_dict_V = {p.name: p.value for p in Cell_params.objects.filter(cell=cell.id, formula='V')}
@@ -41,6 +50,8 @@ def cell_view(request, id):
     cell_params_P = [(p.name, p.value) for p in Cell_params.objects.filter(cell_id=id, formula='P')]
     return render(request, 'research_base/cell.html',context={
         'cell': cell,
+        'cells_type_data': cells_type_data,
+        'type_id': type_id,
         "cell_params_V": cell_params_V,
         "cell_params_P": cell_params_P,
     })

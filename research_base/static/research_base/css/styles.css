@@ -49,6 +49,7 @@
 #table_container, .main_form {
     height: 1000px;
     overflow-y: scroll;
+    padding-right: 20px;
 }
 
 #menu {
@@ -117,7 +118,7 @@
 }
 
 .form_image {
-    width: 400px;
+    width: 280px;
     margin-bottom: 30px;
 }
 
