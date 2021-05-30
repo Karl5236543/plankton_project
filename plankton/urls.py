@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('research_base.urls')),
     path('map/', include('map.urls')),
+    path('report/', include('report.urls')),
 ]
 
 if settings.DEBUG:

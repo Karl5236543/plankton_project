@@ -16,7 +16,7 @@
                 <div class="col-md-11">
                     <div id="description">
                         <input id="type_id" hidden value="{{type_id}}" type="text">
-                        <h1>тип клетки: {{ cell.type }}</h1>
+                        <h1>численность видов</h1>
                     </div>
                 </div>
                 <div class="col-md-1 gx-0">
@@ -66,13 +66,21 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-                        <h6>Объём клетки (V): {{cell.V}}</h6>
-                        <h6>Площадь поверхности клетки (P): {{cell.P}}</h6>
+                        <table>
+                            <tr>
+                                <td><strong>Объём клетки:</strong></td>
+                                <td>{{cell.V}}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Площадь поверхности:</strong></td>
+                                <td>{{cell.P}}</td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="col-md-7">
                         <div class="row cell_types_table">
 
-                            <table class="table table-striped">
+                            <table class="table table-striped table_content">
                                 <thead>
                                     <tr>
                                         <th>тип</th>
@@ -87,6 +95,10 @@
                                         <td>{{row.cell_count}}</td>
                                     </tr>
                                     {%endfor%}
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -95,7 +107,7 @@
                 </div>
             </div>
             <div id="menu">
-                <button type="button" class="btn btn-primary">Создать отчёт</button>
+                <a href="{{cell.get_report_url}}" type="button" class="btn btn-primary">Создать отчёт</a>
             </div>
         </div>
     </div>

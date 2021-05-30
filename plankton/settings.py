@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'research_base.apps.ResearchBaseConfig',
-    'map.apps.MapConfig'
+    'map.apps.MapConfig',
+    'report.apps.ReportConfig',
 
 ]
 

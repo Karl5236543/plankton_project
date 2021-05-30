@@ -155,6 +155,9 @@ class Cell(models.Model):
     def get_edit_url(self):
         return reverse('cell_edit', kwargs={'id': self.id})
 
+    def get_report_url(self):
+        return reverse('cell_report', kwargs={'id': self.id})
+
     def __str__(self):
         return f"{self.type.name} - {self.form.name}"
 
