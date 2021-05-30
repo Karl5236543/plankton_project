@@ -1,30 +1,12 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoidmFsZW50aW41MjM2NTQzIiwiYSI6ImNrcDV4cnlhejB6YXYycXIydzRwd2NkbTIifQ.idvBgM2HIpy8s_ob1G8JWw';
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
+    style: 'mapbox://styles/mapbox/satellite-v9',
     center: [-124.43115234375, 40.44694705960048],
     zoom: 5
 });
-/* 
-map.on('load', function () {
-    map.addSource('earthquakes', {
-        type: 'geojson',
-        // Use a URL for the value for the `data` property.
-        data: 'https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson'
-    });
 
-    map.addLayer({
-        'id': 'earthquakes-layer',
-        'type': 'circle',
-        'source': 'earthquakes',
-        'paint': {
-            'circle-radius': 8,
-            'circle-stroke-width': 2,
-            'circle-color': 'blue',
-            'circle-stroke-color': 'white'
-        }
-    });
-}); */
+
 
 table_container = document.getElementById("table_container")
 create_form = document.getElementById("create_form")

@@ -117,6 +117,9 @@ class Sample(models.Model):
     def get_cell_count(self):
         return sum([cell.count for cell in self.cells.all()])
 
+    def get_cell_count_with_type(self, type_id):
+        return sum([cell.count for cell in self.cells.filter(type_id=type_id)])
+
     
 
 

@@ -15,6 +15,7 @@
             <div class="row">
                 <div class="col-md-11">
                     <div id="description">
+                        <input hidden id="research_id" type="text", value="{{current_research.id}}">
                         <h1>район: {{ current_research.name }}</h1>
                         Время создания : {{current_research.create_time}} <br>
                         Название района : {{current_research.area_name}} <br>
@@ -188,4 +189,6 @@
     </div>
 </div>
 <script src='{% static "research_base/js/main.js" %}'></script>
+<script src='{% static "research_base/js/research.js" %}'></script>
+<script src='{% static "research_base/js/popUp.js" %}'></script>
 {% endblock %}

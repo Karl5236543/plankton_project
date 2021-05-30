@@ -15,6 +15,7 @@
             <div class="row">
                 <div class="col-md-11">
                     <div id="description">
+                        <input id="type_id" hidden value="{{cell.type.id}}" type="text">
                         <h1>тип клетки: {{ cell.type }}</h1>
                     </div>
                 </div>
@@ -32,6 +33,7 @@
             <div class="row" id="header">
             <div id="table_container" class="cell_info_container">
                 <h5>тип : {{cell.type.name}}</h5>
+                <p>{{cell.type.description}}</p>
                 <h5>количество : {{cell.count}}</h5>
                 <br>
                 <h5>форма : {{cell.form.name}}</h5>
@@ -71,5 +73,6 @@
         </div>
     </div>
 </div>
-<script src='{% static "research_base/js/main.js" %}'></script>
+<script src='{% static "research_base/js/cell.js" %}'></script>
+<script src='{% static "research_base/js/popUp.js" %}'></script>
 {% endblock %}

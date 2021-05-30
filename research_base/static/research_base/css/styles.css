@@ -125,3 +125,24 @@
     padding-left: 30px;
     padding-top: 30px;
 }
+
+#layer_menu {
+    
+    padding: 20px;
+    position: absolute;
+    top: 60px;
+    left: 5px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    height:fit-content;
+    border-radius: 10px;
+}
+
+.mapboxgl-popup {
+    width: 600px;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.mapboxgl-popup-content {
+    width: fit-content;
+}

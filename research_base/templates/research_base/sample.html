@@ -16,6 +16,8 @@
             <div class="row">
                 <div class="col-md-11">
                     <div id="description">
+                        <input hidden id="station_id" type="text" , value="{{current_sample.station_id}}">
+                        <input hidden id="station_coords" type="text" , value="{{current_sample.station.coords}}">
                         <h1>образец</h1>
                         Время создания : {{current_sample.create_time}} <br>
                         время сбора : {{current_sample.time}} <br>
@@ -24,16 +26,19 @@
                     </div>
                 </div>
                 <div class="col-md-1 gx-0">
-                    <a id="return_btn" type="button" class="btn btn-primary" href="{{current_sample.station.get_absolute_url}}">
+                    <a id="return_btn" type="button" class="btn btn-primary"
+                        href="{{current_sample.station.get_absolute_url}}">
                         <div id="return_btn_text">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
-                                <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                                class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z" />
                             </svg>
                         </div>
                     </a>
-                </div>  
+                </div>
             </div>
-            
+
             <div class="row" id="header">
                 <div class="col-md-8" id="search">
                     <form class="row g-3" method="GET">
@@ -46,13 +51,13 @@
                             </select>
                           </div>
                         <div class="col-auto">
-                          <input value="{{search_name}}" type="text" name="search_name" class="form-control">
+                            <input value="{{search_name}}" type="text" name="search_name" class="form-control">
                         </div>
                         <div class="col-auto">
-                          <button type="submit" class="btn btn-primary mb-3">поиск</button>
+                            <button type="submit" class="btn btn-primary mb-3">поиск</button>
                         </div>
-                      </form>
-                    
+                    </form>
+
                 </div>
                 <div class="col-md-3" id="btngrout">
                     <button type="button" class="btn btn-primary pt-1" id="create">
@@ -94,7 +99,8 @@
                         {% for cell in cells %}
                         <tr class="table_tr">
                             <td class="table_td" scope="row">
-                                <a type="button" class="btn btn-outline-primary btn-sm default_link" href="{{cell.get_absolute_url}}">
+                                <a type="button" class="btn btn-outline-primary btn-sm default_link"
+                                    href="{{cell.get_absolute_url}}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                                         class="bi bi-arrow-right-square-fill" viewBox="0 0 16 16">
                                         <path
@@ -150,7 +156,8 @@
                     <select name="type" class="form-select">
                         <option></option>
                         {% for type in types %}
-                        <option {% if cell.type.id == type.id %}selected{% endif %} value="{{type.id}}">{{type.name}}</option>
+                        <option {% if cell.type.id == type.id %}selected{% endif %} value="{{type.id}}">{{type.name}}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -159,13 +166,14 @@
                     <select name="cell_form" class="form-select form_edit_input" id="{{cell.id}}">
                         <option></option>
                         {% for form in forms %}
-                        <option {% if cell.form.id == form.id %}selected{% endif %} value="{{form.id}}">{{form.name}}</option>
+                        <option {% if cell.form.id == form.id %}selected{% endif %} value="{{form.id}}">{{form.name}}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="cell_count" class="form-label">Количество</label>
-                    <input value="{{cell.count}}" name="cell_count" type="number", class="form-control">
+                    <input value="{{cell.count}}" name="cell_count" type="number" , class="form-control">
                 </div>
                 <div class="md-3 p_container" id="edit_params_V_container_{{cell.id}}">
                 </div>
@@ -198,7 +206,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="cell_count" class="form-label">Количество</label>
-                    <input name="cell_count" type="number", class="form-control">
+                    <input name="cell_count" type="number" , class="form-control">
                 </div>
                 <div class="md-3 p_container" id="params_V_container">
                 </div>
@@ -221,4 +229,6 @@
     </div>
 </div>
 <script src='{% static "research_base/js/sample.js" %}'></script>
+<script src='{% static "research_base/js/station.js" %}'></script>
+<script src='{% static "research_base/js/popUp.js" %}'></script>
 {% endblock %}

@@ -23,6 +23,7 @@ from .view import page_not_found_404_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('research_base.urls')),
+    path('map/', include('map.urls')),
 ]
 
 if settings.DEBUG:
