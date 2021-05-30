@@ -33,7 +33,7 @@
             </div>
             <div id="table_container" class="cell_info_container">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <h6>тип: {{cell.type.name}}</h6>
                         <p>{{cell.type.description}}</p>
                         <h6>количество: {{cell.count}}</h6>
@@ -69,26 +69,28 @@
                         <h6>Объём клетки (V): {{cell.V}}</h6>
                         <h6>Площадь поверхности клетки (P): {{cell.P}}</h6>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
+                        <div class="row cell_types_table">
 
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>тип</th>
-                                    <th>численность</th>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for row in cells_type_data %}
-                                <tr>
-                                    <td><a href="{{cell.get_absolute_url}}?type_id={{row.type_id}}">{{row.type_name}}</a></td>
-                                    <td>{{row.cell_count}}</td>
-                                </tr>
-                                {%endfor%}
-                            </tbody>
-                        </table>
-
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>тип</th>
+                                        <th>численность</th>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in cells_type_data %}
+                                    <tr>
+                                        <td><a href="{{cell.get_absolute_url}}?type_id={{row.type_id}}">{{row.type_name}}</a></td>
+                                        <td>{{row.cell_count}}</td>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                        <canvas id="myChart" width="400" height="400"></canvas>
                     </div>
                 </div>
             </div>
@@ -98,6 +100,8 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src='{% static "research_base/js/cell.js" %}'></script>
 <script src='{% static "research_base/js/popUp.js" %}'></script>
+<script src='{% static "research_base/js/my_chart.js" %}'></script>
 {% endblock %}

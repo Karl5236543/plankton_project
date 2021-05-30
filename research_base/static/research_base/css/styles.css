@@ -147,3 +147,8 @@
 .mapboxgl-popup-content {
     width: fit-content;
 }
+
+.cell_types_table{
+    height: 400px;
+    overflow-y: scroll;
+}

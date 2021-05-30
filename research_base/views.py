@@ -3,6 +3,8 @@ from django.http import JsonResponse
 from django.conf import settings
 from .models import *
 from .utils import *
+from random import randint
+
 
 
 def index(request):
@@ -25,6 +27,27 @@ def get_cell_view(request, id):
         "params_P": cell_params_P,
     }
     return JsonResponse(cell_data)
+
+
+def types_viw(request):
+    cells_type_data = {
+        "label": "types",
+        "labels": [],
+        "values": [],
+        "background_colors": [],
+        "boarder_colors": [],
+    }
+
+    types = Type.objects.all()
+    for type in types:
+        name, count = type.name, sum([cell.count for cell in Cell.objects.filter(type_id=type.id)] + [0])
+        cells_type_data['labels'].append(name)
+        cells_type_data['values'].append(count)
+        r, g, b = randint(20, 255), randint(20, 255), randint(20, 255)
+        cells_type_data['background_colors'].append(f"rgba({r}, {g}, {g}, {0.2})")
+        cells_type_data['boarder_colors'].append(f"rgba({r}, {g}, {g}, {1})")
+
+    return JsonResponse(cells_type_data)
 
 
 def cell_view(request, id):

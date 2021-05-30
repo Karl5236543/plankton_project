@@ -11,21 +11,24 @@ map.addControl(new mapboxgl.NavigationControl());
 type_id = document.getElementById("type_id").value
 map.on('load', function () {
 
-     map.addSource('earthquakes', {
-         type: 'geojson',
-         data: 'http://localhost:8000/map/cell_data_json/' + type_id
-     });
-     map.addLayer({
-         'id': 'earthquakes-layer',
-         'type': 'circle',
-         'source': 'earthquakes',
-         'paint': {
-             'circle-radius': 20,
-             'circle-stroke-width': 2,
-             'circle-color': ['get', 'color'],
-             'circle-stroke-color': 'white',
-         }
-     });
+    map.addSource('earthquakes', {
+        type: 'geojson',
+        data: 'http://localhost:8000/map/cell_data_json/' + type_id
+    });
+    map.addLayer({
+        'id': 'earthquakes-layer',
+        'type': 'circle',
+        'source': 'earthquakes',
+        "sort": ['get', 'title'],
+        'paint': {
+            'circle-radius': 20,
+            'circle-stroke-width': 8,
+            'circle-color': ['get', 'color'],
+            'circle-stroke-color': ['get', 'color'],
+            'circle-stroke-opacity': 0.5,
+        },
+        
+    });
 
     map.addSource('points', {
         'type': 'geojson',
