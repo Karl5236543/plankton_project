@@ -140,3 +140,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 API_KEY = "SOME_API_KEY"
+
+LOGIN_REDIRECT_URL = '/research_list'

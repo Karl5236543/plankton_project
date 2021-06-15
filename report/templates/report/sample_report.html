@@ -1,0 +1,67 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block content %}
+<div class="container report_container">
+    <div class="row">
+        <div class="col">
+            <div class="report_header">
+                <input id="sample_id" hidden value="{{sample.id}}" type="text">
+                <h1>Отчёт по образцу</h1>
+                <hr>
+            </div>
+            <div class="report_body">
+                <strong>горизонт: </strong>{{sample.horizont}} <br>
+                <strong>время сбора: </strong>{{sample.time}}<br>
+                <strong>станция: </strong>{{station_name}}<br>
+                <strong>район: </strong>{{area_name}}<br>
+                <br>
+            </div>
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        
+                        {% for label in thead %}
+                        <th scope="col">{{ label }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cell in cells %}
+                    <tr class="table_tr">
+                        <td class="table_td" scope="row">
+                            {{cell.create_time}}
+                        </td>
+                        <td class="table_td" scope="row">
+                            {{cell.type}}
+                        </td>
+                        <td class="table_td" scope="row">
+                            {{cell.form}}
+                        </td>
+                        <td class="table_td" scope="row">
+                            {{cell.count}}
+                        </td>
+                        <td class="table_td" scope="row">
+                            {{cell.V}}
+                        </td>
+                        <td class="table_td" scope="row">
+                            {{cell.P}}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="report_result">
+                <h3>V: {{V}}</h3>
+                <h3>P: {{P}}</h3>
+            </div>
+            <canvas id="myChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src='{% static "report/js/sample.js" %}'></script>
+{% endblock %}

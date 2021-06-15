@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.conf import settings
+from django.urls.base import reverse_lazy
 from .models import *
 from .utils import *
 from random import randint
@@ -279,7 +280,7 @@ def research_view(request, id):
     except KeyError:
         pass
     
-    if (title and value):
+    if title and value:
         field = Station.get_field_name(title)
         filter_params = {
             'research_id' : id,

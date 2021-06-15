@@ -22,25 +22,33 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'index' %}">главное меню</a>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'research_list' %}">карта районов</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">библиотека</a>
-                    </li>
-                    <!-- Если мы авторизованы -->
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">мой профиль</a>
-                    </li>
-                </ul>
+    <div id="main_navbar">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'research_list' %}">главное меню</a>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'research_list' %}">карта
+                                районов</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">библиотека</a>
+                        </li>
+                        <!-- Если мы авторизованы -->
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">регистрация</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                                href="{% url 'login'%}?next={{request.path}}">авторизация</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </div>
     {% block content %}
     <h1>На этой странице еще ничего нет</h1>
     {% endblock %}

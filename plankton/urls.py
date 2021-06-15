@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('research_base.urls')),
     path('map/', include('map.urls')),
     path('report/', include('report.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:

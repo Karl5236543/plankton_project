@@ -74,7 +74,7 @@ class Station(models.Model):
         return reverse('station', kwargs={'id': self.id})
 
     def get_edit_url(self):
-        return reverse('station_edit', kwargs={'id': self.id})
+        return reverse('sample_report', kwargs={'id': self.id})
 
     def get_sample_count(self):
         return self.samples.count()
@@ -120,8 +120,27 @@ class Sample(models.Model):
     def get_cell_count_with_type(self, type_id):
         return sum([cell.count for cell in self.cells.filter(type_id=type_id)])
 
-    
+    def get_report_url(self):
+        return reverse('sample_report', kwargs={'id':self.id})
 
+
+class Cell_params(models.Model):
+    FORMULA = (
+        ('V', 'Volume'),
+        ('P', 'Perimeter'),
+    )
+    cell = models.ForeignKey('Cell', on_delete=models.CASCADE, related_name='parameters')
+    name = models.CharField(max_length=10)
+    value = models.FloatField()
+    formula = models.CharField(max_length=1,
+                                      choices=FORMULA,
+                                      default='V')
+
+    def __str__(self):
+        return f"{self.name}"
+
+    def get_absolute_url(self):
+        return reverse('cell', kwargs={'id': self.id})
 
 class Cell(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -161,6 +180,14 @@ class Cell(models.Model):
     def __str__(self):
         return f"{self.type.name} - {self.form.name}"
 
+    def get_V(self):
+        cell_params_V = {p.name: p.value for p in Cell_params.objects.filter(cell=self.id, formula='V')}
+        return 42 #calculate(self.form.formula_V, cell_params_V)
+
+    def get_P(self):
+        cell_params_P = {p.name: p.value for p in Cell_params.objects.filter(cell_id=self.id, formula='P')}
+        return 42 #calculate(self.form.formula_P, cell_params_P)
+
 
 class Form(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -193,20 +220,3 @@ class Type(models.Model):
 
 
 
-class Cell_params(models.Model):
-    FORMULA = (
-        ('V', 'Volume'),
-        ('P', 'Perimeter'),
-    )
-    cell = models.ForeignKey('Cell', on_delete=models.CASCADE, related_name='parameters')
-    name = models.CharField(max_length=10)
-    value = models.FloatField()
-    formula = models.CharField(max_length=1,
-                                      choices=FORMULA,
-                                      default='V')
-
-    def __str__(self):
-        return f"{self.name}"
-
-    def get_absolute_url(self):
-        return reverse('cell', kwargs={'id': self.id})
