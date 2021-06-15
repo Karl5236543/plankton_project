@@ -17,7 +17,7 @@ from plankton import settings
 from django.conf.urls import handler404
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path, include
 from .view import page_not_found_404_view
 
 urlpatterns = [
@@ -26,6 +26,7 @@ urlpatterns = [
     path('map/', include('map.urls')),
     path('report/', include('report.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('library/', include('library.urls')),
 ]
 
 if settings.DEBUG:

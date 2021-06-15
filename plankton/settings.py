@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'research_base.apps.ResearchBaseConfig',
     'map.apps.MapConfig',
     'report.apps.ReportConfig',
+    'library.apps.LibraryConfig',
 
 ]
 
