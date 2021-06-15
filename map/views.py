@@ -17,5 +17,7 @@ def station_json_view(request, id):
 
 
 def cell_data_json_view(request, id):
-    return JsonResponse(get_cells_data_json(id))
+    date_start = request.GET.get("date_start")
+    date_end = request.GET.get("date_end")
+    return JsonResponse(get_cells_data_json(id, date_start, date_end))
 

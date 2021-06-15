@@ -17,5 +17,5 @@ map.on('load', function () {
         }
     });
     //console.log(station_coords);
-    map.flyTo({center: JSON.parse(station_coords), zoom: 10});
+    map.easeTo({center: JSON.parse(station_coords), zoom: 10});
 });

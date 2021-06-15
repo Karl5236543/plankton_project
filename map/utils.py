@@ -1,4 +1,5 @@
 from research_base.models import Station, Cell
+from django.db.models import Q
 
 def get_stations_json(res_id=None, st_id=None):
     stations = {
@@ -34,20 +35,29 @@ def get_stations_json(res_id=None, st_id=None):
     return stations
 
 
-def get_cells_data_json(type_id):
+def get_cells_data_json(type_id, date_start=None, date_end=None):
     json_data = {
         "type": "FeatureCollection",
         "features": []
     }
 
+    print(date_start)
+    print(date_end)
+    if date_start and date_end:
+        stations = Station.objects.filter(Q(date__gte=date_start) & Q(date__lte=date_end))
+    elif date_start and not date_end:
+        stations = Station.objects.filter(date__gte=date_start)
+    elif not date_start and date_end:
+        stations = Station.objects.filter(date__lte=date_end)
+    else:
+        stations = Station.objects.all()
     st_cell_count_list = []
-    for st in Station.objects.all():
+    for st in stations:
         st_cell_count_list += [sample.get_cell_count_with_type(type_id=type_id) for sample in st.samples.all()]
 
-    max_cell_count = max(st_cell_count_list)
-    min_cell_count = min(st_cell_count_list)
+    max_cell_count = max(st_cell_count_list + [0,])
+    min_cell_count = min(st_cell_count_list + [0,])
 
-    stations = Station.objects.all()
     for station in stations:
         cell_count = sum(sample.get_cell_count_with_type(type_id) for sample in station.samples.all())
         json_data["features"].append({
