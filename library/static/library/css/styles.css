@@ -7,7 +7,7 @@
     height: fit-content;
 }
 
-#create_type_form, .edit_type_form {
+#create_type_form, .edit_type_form , #create_form_form {
     display: none;
     text-align: left;
     margin: 15px;

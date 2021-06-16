@@ -1,0 +1,127 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}
+Библиотека видов
+{% endblock %}
+
+{% block content %}
+<div id="back"></div>
+<div class="container-md h-100 p-0 report_container">
+    <div id="library_header">
+        <div class="btn-group" role="group" aria-label="Basic mixed styles example" id="btngroup">
+            <button type="button" class="btn btn-success" id="create">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
+                </svg>
+            </button>
+            <button type="button" class="btn btn-warning" id="edit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-gear-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+                </svg>
+            </button>
+            <button type="button" class="btn btn-danger" id="delete">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-backspace-reverse-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M0 3a2 2 0 0 1 2-2h7.08a2 2 0 0 1 1.519.698l4.843 5.651a1 1 0 0 1 0 1.302L10.6 14.3a2 2 0 0 1-1.52.7H2a2 2 0 0 1-2-2V3zm9.854 2.854a.5.5 0 0 0-.708-.708L7 7.293 4.854 5.146a.5.5 0 1 0-.708.708L6.293 8l-2.147 2.146a.5.5 0 0 0 .708.708L7 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L7.707 8l2.147-2.146z" />
+                </svg>
+            </button>
+        </div>
+        {% for type in form %}
+        <!-- <form action="{{type.get_edit_url}}" method="post" class="edit_form" id="edit_form_{{form.id}}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Имя типа</label>
+                <input type="text" class="form-control" id="type_name" value="{{type.name}}" name="name">
+            </div>
+            <div class="mb-3">
+                <label for="description_input" class="form-label">Описание</label>
+                <textarea class="form-control" id="description_input" rows="3" name="description">{{type.description}}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Изменить</button>
+        </form> -->
+        {% endfor %}
+        <form action="{% url 'create_type' %}" method="post" id="create_form_form">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="formula_V" class="form-label">formula_V</label>
+                <input type="text" class="form-control" id="formula_V", name="formula_V">
+            </div>
+            <div class="mb-3">
+                <label for="formula_P_params" class="form-label">params</label>
+                <input type="text" class="form-control" id="formula_P_params", name="formula_P_params">
+            </div>
+            <div class="mb-3">
+                <label for="formula_P" class="form-label">formula_P</label>
+                <input type="text" class="form-control" id="formula_P", name="formula_P">
+            </div>
+            <div class="mb-3">
+                <label for="formula_V_params" class="form-label">params</label>
+                <input type="text" class="form-control" id="formula_V_params", name="formula_V_params">
+            </div>
+            <div class="mb-3">
+                <label for="photo" class="form-label">фото</label>
+                <input type="file" class="form-control" id="photo", name="photo">
+            </div>
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </form>
+    </div>
+    <table class="table">
+        <tbody>
+            {% for form in forms %}
+            <tr style="height: 60px; vertical-align: middle;">
+                <td scope="row">
+                    <img src="{{form.photo.url}}" alt="" class="form_image" style="height: 150px; width: 150px;">
+                </td>
+                <td>
+                    <h4>V = {{form.formula_V}}</h4>
+                </td>
+                <td>
+                    <h4>P = {{form.formula_P}}</h4>
+                </td>
+                <th scope="row" style="text-align: right;">
+                    <button style="display: inline" type="button" class="btn btn-success show_description_btn"
+                        value="{{type.id}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-book" viewBox="0 0 16 16">
+                            <path
+                                d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z" />
+                        </svg>
+                    </button>
+                    <button style="display: none" type="button" class="btn btn-warning edit_btn" value="{{type.id}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-gear-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+                        </svg>
+                    </button>
+                    <button style="display: none" type="button" class="btn btn-danger delete_btn" value="{{type.id}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-backspace-reverse-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M0 3a2 2 0 0 1 2-2h7.08a2 2 0 0 1 1.519.698l4.843 5.651a1 1 0 0 1 0 1.302L10.6 14.3a2 2 0 0 1-1.52.7H2a2 2 0 0 1-2-2V3zm9.854 2.854a.5.5 0 0 0-.708-.708L7 7.293 4.854 5.146a.5.5 0 1 0-.708.708L6.293 8l-2.147 2.146a.5.5 0 0 0 .708.708L7 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L7.707 8l2.147-2.146z" />
+                        </svg>
+                    </button>
+                </th>
+            </tr>
+            <tr style="display: none;" id="description_container_{{form.id}}">
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div id="delete_menu">
+    <h4>Вы уверены, что хотите удалить этот вид?</h4>
+    <a type="button" class="btn btn-danger" id="delete_button">Удалить</a>
+    <button type="button" class="btn btn-primary" id="cancel_button">отмена</button>
+</div>
+<link rel="stylesheet" href='{% static "library/css/styles.css" %}'>
+<script src='{% static "library/js/forms.js" %}'></script>
+{% endblock %}

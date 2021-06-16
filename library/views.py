@@ -10,6 +10,12 @@ def type_list_view(request):
         'types': types
     })
 
+def form_list_view(request):
+    forms = Form.objects.all()
+    return render(request, 'library/form_list.html', context={
+        'forms': forms
+    })
+
 
 def create_type_view(request):
     name = request.POST.get("name")
@@ -32,6 +38,3 @@ def delete_type_view(request, id):
     Type.objects.get(id=id).delete()
     return redirect('type_list', permanent=False)
 
-
-def form_list_view(request):
-    return HttpResponse('forms...')
