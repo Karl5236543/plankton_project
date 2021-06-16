@@ -1,0 +1,15 @@
+#btngroup {
+    margin: 15px;
+}
+
+#library_header {
+    text-align: right;
+    height: fit-content;
+}
+
+#create_type_form, .edit_type_form {
+    display: none;
+    text-align: left;
+    margin: 15px;
+    padding-bottom: 15px;
+}

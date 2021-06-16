@@ -36,7 +36,6 @@ for (var i = 0; i < edit_links.length; i++) {
 document.getElementById("create").onclick = function () {
     create_form.style.display = 'block'
     table_container.style.display = 'none'
-    console.log(table_container.style.display);
 
 };
 

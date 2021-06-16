@@ -217,6 +217,9 @@ class Type(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    def get_edit_url(self):
+        return reverse('edit_type', kwargs={'id': self.id})
+
 
 
 
